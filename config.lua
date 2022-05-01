@@ -6,9 +6,9 @@
 
 Config = {}
 
-Config.TriggerMenuSim = "esx_cartesim:OpenSim"
+Config.TriggerMenuSim = "METTI IL TUO TRIGGER"
 Config.TriggerMenuBilling = "METTI IL TUO TRIGGER"
-Config.TriggerTPM = "esx:tpm"
+Config.TriggerTPM = "METTI IL TUO TRIGGER"
 Config.TriggerSmontaArmi = "METTI IL TUO TRIGGER"
 
 Config.ZgNotify = false
