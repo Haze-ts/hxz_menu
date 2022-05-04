@@ -372,7 +372,6 @@ function OpenAdminMenu()
 			{label = Lang["repair_vehicle"],    value = "rveicolo"},
 			{label = Lang["flip_vehicle"],      value = "gveicolo"},
 			{label = Lang["car"],       		value = "car"},
-			{label = Lang["car_player"],       	value = "car_player"},
 			{label = Lang["giub"],       		value = "giub"},
 			{label = Lang["godmode"],       	value = "godmode"},
 			{label = Lang["wipe"],       		value = "wipe"},

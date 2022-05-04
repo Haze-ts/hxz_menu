@@ -6,9 +6,9 @@
 
 Config = {}
 
-Config.TriggerMenuSim = "METTI IL TUO TRIGGER"
+Config.TriggerMenuSim = "esx_cartesim:OpenSim"
 Config.TriggerMenuBilling = "METTI IL TUO TRIGGER"
-Config.TriggerTPM = "METTI IL TUO TRIGGER"
+Config.TriggerTPM = "esx:tpm"
 Config.TriggerSmontaArmi = "METTI IL TUO TRIGGER"
 
 Config.ZgNotify = false
@@ -67,7 +67,6 @@ Lang = {
         ["repair_vehicle"]          = "Ripara Veicolo",
         ["flip_vehicle"]            = "Ribalta Veicolo",
         ["car"]                     = "Spawn Veicolo",
-        ["car_player"]              = "Dai Veicolo Player",
         ["tpm"]                     = "Tpm",
         ["wipe"]                    = "Wipe Giocatore",
         ["giub"]                    = "Dai Giubbotto",
@@ -77,7 +76,7 @@ Lang = {
         ['notify_administration']   = 'Non hai i permessi',
         ['notify_player_not_found'] = 'Il giocatore non è online',
         ['notify_search']           = 'Nessun player nelle vicinanze',
-        ['notify_repair_vehicle']   = 'Veicolo riparato con correttamente',
+        ['notify_repair_vehicle']   = 'Veicolo riparato correttamente',
         ['notify_no_vehicle']       = 'Non sei in un veciolo',
         ['notify_flip_vehicle']     = 'Veicolo ribaltato',
         ['notify_spawn_vehicle']    = 'Veicolo Spawnato',
