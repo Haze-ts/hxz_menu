@@ -64,6 +64,7 @@ Lang = {
 
     --Admin Menu
         ["noclip"]                  = "NoClip",
+        ["ghostmode"]               = "GhostMode",
         ["repair_vehicle"]          = "Ripara Veicolo",
         ["flip_vehicle"]            = "Ribalta Veicolo",
         ["car"]                     = "Spawn Veicolo",
@@ -78,6 +79,8 @@ Lang = {
         ['notify_search']           = 'Nessun player nelle vicinanze',
         ['notify_repair_vehicle']   = 'Veicolo riparato correttamente',
         ['notify_no_vehicle']       = 'Non sei in un veciolo',
+        ['notify_ghostmode_on']    = 'GhostMode Attivata',
+        ['notify_ghostmode_off']    = 'GhostMode Disattivata',
         ['notify_flip_vehicle']     = 'Veicolo ribaltato',
         ['notify_spawn_vehicle']    = 'Veicolo Spawnato',
         ['notify_godmode_on']       = 'GodMode Attivata',

@@ -1,5 +1,6 @@
 local inGodMode = false
 local activenames = false
+local inGhostMode = false
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -374,6 +375,7 @@ function OpenAdminMenu()
 			{label = Lang["car"],       		value = "car"},
 			{label = Lang["giub"],       		value = "giub"},
 			{label = Lang["godmode"],       	value = "godmode"},
+			{label = Lang["ghostmode"],       	value = "ghostmode"},
 			{label = Lang["wipe"],       		value = "wipe"},
 		  	}
 	  },function(data, menu)
@@ -424,16 +426,17 @@ function OpenAdminMenu()
                 title = "Inserisci il nome del veicolo",
                 default = ""
             }, function(data, menu)
-				local ModelHash = data.value
-				if not IsModelInCdimage(ModelHash) then return end
-				RequestModel(ModelHash)
-				while not HasModelLoaded(ModelHash) do 
-				  Citizen.Wait(10)
-				end
-				local MyPed = PlayerPedId() 
-				local Vehicle = CreateVehicle(ModelHash, GetEntityCoords(MyPed), GetEntityHeading(MyPed), true, false)
-				SetModelAsNoLongerNeeded(ModelHash)
-				ESX.UI.Menu.CloseAll()
+					local ModelHash = data.value
+					if not IsModelInCdimage(ModelHash) then return end
+					RequestModel(ModelHash)
+					while not HasModelLoaded(ModelHash) do 
+					Citizen.Wait(10)
+					end
+					local MyPed = PlayerPedId() 
+					local Vehicle = CreateVehicle(ModelHash, GetEntityCoords(MyPed), GetEntityHeading(MyPed), true, false)
+					SetModelAsNoLongerNeeded(ModelHash)
+					TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, -1)
+					ESX.UI.Menu.CloseAll()
 				if Config.ZgNotify then
 					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_spawn_vehicle']})
 				else
@@ -479,6 +482,23 @@ function OpenAdminMenu()
 					ESX.ShowNotification(Lang['notify_godmode_off'])
 				end
 				inGodMode = false
+			end
+		elseif val == "ghostmode" then
+			if inGhostMode == false then
+				if Config.ZgNotify then
+					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_ghostmode_on']})
+				else
+					ESX.ShowNotification(Lang['notify_ghostmode_on'])
+				end
+				inGhostMode = true
+				GhostMode()
+			elseif inGhostMode == true then
+				if Config.ZgNotify then
+					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_ghostmode_off']})
+				else
+					ESX.ShowNotification(Lang['notify_ghostmode_off'])
+				end
+				inGhostMode = false
 			end
         end
 	end, function(data, menu)
@@ -608,6 +628,23 @@ function GodMode()
 			end
 		end
 	end)
+end
+
+function GhostMode()
+    local ped = PlayerPedId()
+
+    Citizen.CreateThread(function()
+        while true do
+            Citizen.Wait(1)
+            if inGhostMode == true then
+                SetEntityInvincible(ped, true)
+				SetEntityVisible(ped, false, false)
+            elseif inGhostMode == false then
+                SetEntityInvincible(ped, false)
+				SetEntityVisible(ped, true, false)
+            end
+        end
+    end)
 end
 
 
