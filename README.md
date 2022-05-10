@@ -1,8 +1,11 @@
 # HXZ-MENU
-Menu F5 per FiveM
+---------------------------------------------------
+This is a simple F5 menu for your server FiveM
 
 
-**Non sei autorizzato a rivendere lo script**
+**You have no permission to resell this script**
 
 
-Discord: Haze#3355
+<h1>Author: Haze#3355</h1>
+
+For any problem contact me in dm
