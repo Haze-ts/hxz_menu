@@ -2,10 +2,6 @@
 ---------------------------------------------------
 This is a simple F5 menu for your server FiveM
 
-
-**You do not have permission to rename and resell this script**
-
-
-<h1>Author: Haze#3355</h1>
-
-For any problem contact me in dm
+<h1>DEPENDENCIES</h1>
+- ox_lib (2.3.0 or higher) - https://github.com/overextended/ox_lib<br>
+- oxmysql - https://github.com/overextended/oxmysql
