@@ -418,10 +418,18 @@ function OpenAdminMenu()
 		elseif val == "tpm" then
 			TriggerEvent(Config.TriggerTPM)
 		elseif val == "wipe" then
-			local input = lib.inputDialog('Esegui il wipe a un player', {'Id Player'})
+
+			local input = lib.inputDialog('Wipe Giocatore', {
+				{ type = "input", label = "ID Player" },
+				{ type = "input", label = "Password", password = true, icon = 'lock' },
+			})
 
 			if input then
-				TriggerServerEvent("hxz:wipepg", input[1])
+				if input[2] == Config.Password then
+					TriggerServerEvent("hxz:wipepg", input[1])
+				else
+					ESX.ShowNotification('Password Errata')
+				end
 			end
 		elseif val == "giub" then
 			local input = lib.inputDialog('Dai Giubbotto', {'Id Player'})
