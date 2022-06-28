@@ -398,11 +398,11 @@ function OpenAdminMenu()
             SetEntityCoords(carTargetDep, playerCoords)
 			ESX.ShowNotification(Lang['notify_flip_vehicle'])
 		elseif val == "car" then
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'spawna_veicolo', {
-                title = "Inserisci il nome del veicolo",
-                default = ""
-            }, function(data, menu)
-				local ModelHash = data.value
+			local input = lib.inputDialog('Spawna un veicolo', {'Inserisci il nome del veicolo'})
+
+			if input then
+				local ModelHash = input[1]
+
 				if not IsModelInCdimage(ModelHash) then return end
 				RequestModel(ModelHash)
 				while not HasModelLoaded(ModelHash) do 
@@ -414,35 +414,26 @@ function OpenAdminMenu()
 				TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, -1)
 				ESX.UI.Menu.CloseAll()
 				ESX.ShowNotification(Lang['notify_spawn_vehicle'])
-            end, function(data, menu)
-                menu.close()
-            end)
+			end
 		elseif val == "tpm" then
 			TriggerEvent(Config.TriggerTPM)
 		elseif val == "wipe" then
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), "wipe_pg", {
-                title = "Inserisci l'id del player che vuoi eliminare",
-                default = ""
-            }, function(data, menu)
-				TriggerServerEvent("hxz:wipepg", data.value)
-            end, function(data, menu)
-                menu.close()
-            end)
+			local input = lib.inputDialog('Esegui il wipe a un player', {'Id Player'})
+
+			if input then
+				TriggerServerEvent("hxz:wipepg", input[1])
+			end
 		elseif val == "giub" then
-			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'dai_giu bbotto', {
-                title = "Dai Giubbotto",
-                default = ""
-            }, function(data, menu)
-                TriggerServerEvent("hxz:bullet", data.value)
-				menu.close()
-            end, function(data, menu)
-                menu.close()
-            end)
+			local input = lib.inputDialog('Dai Giubbotto', {'Id Player'})
+
+			if input then
+				TriggerServerEvent("hxz:bullet", input[1])
+			end
 		elseif val == "godmode" then
 			if inGodMode == false then
 				ESX.ShowNotification(Lang['notify_godmode_on'])
 				inGodMode = true
-				GodMode()
+				HXZ_GodMode()
 			elseif inGodMode == true then
 				ESX.ShowNotification(Lang['notify_godmode_off'])
 				inGodMode = false
@@ -451,7 +442,7 @@ function OpenAdminMenu()
 			if inGhostMode == false then
 				ESX.ShowNotification(Lang['notify_ghostmode_on'])
 				inGhostMode = true
-				GhostMode()
+				HXZ_GhostMode()
 			elseif inGhostMode == true then
 				ESX.ShowNotification(Lang['notify_ghostmode_off'])
 				inGhostMode = false
@@ -571,7 +562,7 @@ NoClip = function()
     end)
 end
 
-function GodMode()
+function HXZ_GodMode()
 	local ped = PlayerPedId()
 
 	Citizen.CreateThread(function()
@@ -587,7 +578,7 @@ function GodMode()
 	end)
 end
 
-function GhostMode()
+function HXZ_GhostMode()
     local ped = PlayerPedId()
 
     Citizen.CreateThread(function()
