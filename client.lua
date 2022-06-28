@@ -26,8 +26,8 @@ function MainMenu()
 			{label = Lang["wallet"],      			value = 'wallet_menu'}, 
 			{label = Lang["clothes"],  				value = 'clothes_menu'}, 
 			{label = Lang["accessory"],				value = 'accessory_menu'},
+			{label = Lang["bullet_menu"],				value = 'bullet'},
 			{label = Lang["sim"],               	value =  "sim"},
-			{label = Lang["smontaarmi"],        	value =  "smontaarmi"},
 			{label = Lang["billing"], 				value = 'billing_menu'},
 			{label = Lang["thieft_menu"], 			value = 'thieft_menu'},
 			{label = Lang["rockstar"], 				value = 'rockstar'},
@@ -43,10 +43,10 @@ function MainMenu()
 			ClothesMenu()
 		elseif data.current.value == "accessory_menu" then
 			AccessoryMenu()
+		elseif data.current.value == "bullet" then
+			TriggerEvent('hxz:menubullet')
 		elseif data.current.value == "sim" then
 			TriggerEvent(Config.TriggerMenuSim)
-		elseif data.current.value == "smontaarmi" then
-			TriggerEvent(Config.TriggerSmontaArmi)
 		elseif data.current.value == "thieft_menu" then
 			ThiefMenu()
 		elseif data.current.value == "billing_menu" then
@@ -54,7 +54,7 @@ function MainMenu()
 		elseif data.current.value == 'rockstar' then
 			RockstarEditor()
 		elseif data.current.value == 'administration' then
-			ESX.TriggerServerCallback("hze:checkgroup", function(playerRank)
+			ESX.TriggerServerCallback("hxz:checkgroup", function(playerRank)
        		if playerRank == "admin" or playerRank == "superadmin" then
 				OpenAdminMenu()
 	  		else 
@@ -90,11 +90,7 @@ function WalletMenu()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(playerVicino))
 			else
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_godmode_off']})
-				else
-					ESX.ShowNotification(Lang['notify_search'])
-				end
+				ESX.ShowNotification(Lang['notify_search'])
 			end
 		elseif data.current.value == 'view_document' then
 			menu.close()
@@ -104,11 +100,7 @@ function WalletMenu()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(playerVicino), 'driver')
 			else
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_godmode_off']})
-				else
-					ESX.ShowNotification(Lang['notify_search'])
-				end
+				ESX.ShowNotification(Lang['notify_search'])
 			end
 		elseif data.current.value == 'view_driving_license' then
 			print('Patente Mostrata')
@@ -119,11 +111,7 @@ function WalletMenu()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(playerVicino), 'weapon')
 			else
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_godmode_off']})
-				else
-					ESX.ShowNotification(Lang['notify_search'])
-				end
+				ESX.ShowNotification(Lang['notify_search'])
 			end
 		elseif data.current.value == 'view_weapon_license' then
 			menu.close()
@@ -393,17 +381,9 @@ function OpenAdminMenu()
             if IsPedInAnyVehicle(PlayerPedId(), false) then
                 SetVehicleFixed(GetVehiclePedIsUsing(PlayerPedId()))	
                 SetVehicleDirtLevel(GetVehiclePedIsUsing(PlayerPedId()),0)
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_repair_vehicle']})
-				else
-					ESX.ShowNotification(Lang['notify_repair_vehicle'])
-				end
+				ESX.ShowNotification(Lang['notify_repair_vehicle'])
             else
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_no_vehicle']})
-				else
-					ESX.ShowNotification(Lang['notify_no_vehicle'])
-				end
+				ESX.ShowNotification(Lang['notify_no_vehicle'])
             end
         elseif val == "gveicolo" then
             local player = PlayerPedId()
@@ -416,32 +396,24 @@ function OpenAdminMenu()
             local playerCoords = GetEntityCoords(PlayerPedId())
             playerCoords = playerCoords + vector3(0, 2, 0)
             SetEntityCoords(carTargetDep, playerCoords)
-			if Config.ZgNotify then
-				exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_flip_vehicle']})
-			else
-				ESX.ShowNotification(Lang['notify_flip_vehicle'])
-			end
+			ESX.ShowNotification(Lang['notify_flip_vehicle'])
 		elseif val == "car" then
 			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'spawna_veicolo', {
                 title = "Inserisci il nome del veicolo",
                 default = ""
             }, function(data, menu)
-					local ModelHash = data.value
-					if not IsModelInCdimage(ModelHash) then return end
-					RequestModel(ModelHash)
-					while not HasModelLoaded(ModelHash) do 
-					Citizen.Wait(10)
-					end
-					local MyPed = PlayerPedId() 
-					local Vehicle = CreateVehicle(ModelHash, GetEntityCoords(MyPed), GetEntityHeading(MyPed), true, false)
-					SetModelAsNoLongerNeeded(ModelHash)
-					TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, -1)
-					ESX.UI.Menu.CloseAll()
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_spawn_vehicle']})
-				else
-					ESX.ShowNotification(Lang['notify_spawn_vehicle'])
+				local ModelHash = data.value
+				if not IsModelInCdimage(ModelHash) then return end
+				RequestModel(ModelHash)
+				while not HasModelLoaded(ModelHash) do 
+				Citizen.Wait(10)
 				end
+				local MyPed = PlayerPedId() 
+				local Vehicle = CreateVehicle(ModelHash, GetEntityCoords(MyPed), GetEntityHeading(MyPed), true, false)
+				SetModelAsNoLongerNeeded(ModelHash)
+				TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, -1)
+				ESX.UI.Menu.CloseAll()
+				ESX.ShowNotification(Lang['notify_spawn_vehicle'])
             end, function(data, menu)
                 menu.close()
             end)
@@ -452,7 +424,7 @@ function OpenAdminMenu()
                 title = "Inserisci l'id del player che vuoi eliminare",
                 default = ""
             }, function(data, menu)
-				TriggerServerEvent("hze:wipepg", data.value)
+				TriggerServerEvent("hxz:wipepg", data.value)
             end, function(data, menu)
                 menu.close()
             end)
@@ -461,43 +433,27 @@ function OpenAdminMenu()
                 title = "Dai Giubbotto",
                 default = ""
             }, function(data, menu)
-                TriggerServerEvent("hze:bullet", data.value)
+                TriggerServerEvent("hxz:bullet", data.value)
 				menu.close()
             end, function(data, menu)
                 menu.close()
             end)
 		elseif val == "godmode" then
 			if inGodMode == false then
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_godmode_on']})
-				else
-					ESX.ShowNotification(Lang['notify_godmode_on'])
-				end
+				ESX.ShowNotification(Lang['notify_godmode_on'])
 				inGodMode = true
 				GodMode()
 			elseif inGodMode == true then
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_godmode_off']})
-				else
-					ESX.ShowNotification(Lang['notify_godmode_off'])
-				end
+				ESX.ShowNotification(Lang['notify_godmode_off'])
 				inGodMode = false
 			end
 		elseif val == "ghostmode" then
 			if inGhostMode == false then
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_ghostmode_on']})
-				else
-					ESX.ShowNotification(Lang['notify_ghostmode_on'])
-				end
+				ESX.ShowNotification(Lang['notify_ghostmode_on'])
 				inGhostMode = true
 				GhostMode()
 			elseif inGhostMode == true then
-				if Config.ZgNotify then
-					exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_ghostmode_off']})
-				else
-					ESX.ShowNotification(Lang['notify_ghostmode_off'])
-				end
+				ESX.ShowNotification(Lang['notify_ghostmode_off'])
 				inGhostMode = false
 			end
         end
@@ -625,6 +581,7 @@ function GodMode()
 				SetEntityInvincible(ped, true)
 			elseif inGodMode == false then
 				SetEntityInvincible(ped, false)
+				break;
 			end
 		end
 	end)
@@ -642,6 +599,7 @@ function GhostMode()
             elseif inGhostMode == false then
                 SetEntityInvincible(ped, false)
 				SetEntityVisible(ped, true, false)
+				break;
             end
         end
     end)
