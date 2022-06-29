@@ -9,9 +9,7 @@ Config = {}
 Config.TriggerMenuSim = "esx_cartesim:OpenSim"
 Config.TriggerMenuBilling = "METTI IL TUO TRIGGER"
 Config.TriggerTPM = "esx:tpm"
-Config.TriggerSmontaArmi = "METTI IL TUO TRIGGER"
-
-Config.ZgNotify = false
+Config.Password = '1234'
 
 
 Lang = {
@@ -21,8 +19,8 @@ Lang = {
         ['wallet']                  = "Documenti",
         ["clothes"]                 = "Gestione Vestiti", 
         ["accessory"]               = "Gestione Accessori", 
+        ["bullet_menu"]                  = "Gestione Giubbotto", 
         ["sim"]                     = "Gestione Sim",
-        ["smontaarmi"]              = "Gestione Armi",
         ["thieft_menu"]             = "Menu Illegale", 
         ["billing"]                 = "Gestione Fatture",
         ['rockstar']                = 'Rockstar Editor',
@@ -72,6 +70,7 @@ Lang = {
         ["wipe"]                    = "Wipe Giocatore",
         ["giub"]                    = "Dai Giubbotto",
         ["godmode"]                 = "GodMode",
+        ["open_inventory_player"]   = "Apri l'inventari di un Giocatore",
 
     --Notify
         ['notify_administration']   = 'Non hai i permessi',
@@ -89,5 +88,5 @@ Lang = {
         ['notify_coords_off']       = 'Coordinate Disattivate',
         ['notify_name_on']          = 'Nomi Attivati',
         ['notify_name_off']         = 'Nomi Disattivati',
-
+        ['drop_notify']             = 'Il tuo personaggio è stato cancellato. Riavvia FiveM e puoi rientrare',
 }
