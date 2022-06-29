@@ -3,7 +3,7 @@ AddEventHandler("NoclipStatus",function (arg)
     Noclip = arg
 end)
 
-ESX.RegisterServerCallback("hze:checkgroup", function(source, cb)
+ESX.RegisterServerCallback("hxz:checkgroup", function(source, cb)
     local player = ESX.GetPlayerFromId(source)
 
     if player ~= nil then
@@ -19,35 +19,33 @@ ESX.RegisterServerCallback("hze:checkgroup", function(source, cb)
     end
 end)
 
-RegisterNetEvent("hze:bullet")
-AddEventHandler("hze:bullet", function(id)
-    local xPlayer = ESX.GetPlayerFromId(id)
-        if xPlayer == nil then
-            TriggerClientEvent('esx:showNotification', source, 'Player non trovato')
-        else
-            SetPedArmour(xPlayer.source, 100)
-        end
+
+ESX.RegisterServerCallback('hxz:checkTarget', function(source, cb, target)
+    local xTarget = ESX.GetPlayerFromId(target)
+    if xTarget then
+        cb(xTarget.identifier)
+    end
 end)
 
-RegisterServerEvent('hze:wipepg')
-AddEventHandler('hze:wipepg', function(id)
+RegisterNetEvent("hxz:bullet")
+AddEventHandler("hxz:bullet", function(id)
+    local xPlayer = ESX.GetPlayerFromId(id)
+    if xPlayer == nil then
+        TriggerClientEvent('esx:showNotification', source, 'Player non trovato')
+    else
+        SetPedArmour(xPlayer.source, 100)
+    end
+end)
+
+RegisterServerEvent('hxz:wipepg')
+AddEventHandler('hxz:wipepg', function(id)
 
     local xPlayer = ESX.GetPlayerFromId(id)
     if xPlayer == nil then
-        if Config.ZgNotify then
-            exports["zg-notify"]:TriggerNotification({['type'] = "success",['text'] = Lang['notify_player_not_found']})
-        else
-            TriggerClientEvent('esx:showNotification', source, Lang['notify_player_not_found'])
-        end
+        TriggerClientEvent('esx:showNotification', source, Lang['notify_player_not_found'])
     else
-        DropPlayer(id, 'hze-menu: Il tuo personaggio è stato cancellato. Riavvia FiveM e puoi rientrare')
+        DropPlayer(id, Lang['drop_notify'])
 
-        MySQL.Sync.execute('DELETE FROM addon_account_data WHERE owner = @identifier', {
-            ['@identifier'] = xPlayer.identifier
-        })
-        MySQL.Sync.execute('DELETE FROM addon_inventory_items WHERE owner = @identifier', {
-            ['@identifier'] = xPlayer.identifier
-        })
         MySQL.Sync.execute('DELETE FROM billing WHERE identifier = @identifier', {
             ['@identifier'] = xPlayer.identifier
         })
@@ -69,44 +67,8 @@ AddEventHandler('hze:wipepg', function(id)
         MySQL.Sync.execute('DELETE FROM multicharacter_slots WHERE identifier = @identifier', {
             ['@identifier'] = xPlayer.identifier
         })
-        MySQL.Sync.execute('DELETE FROM gacha_peds WHERE identifier = @identifier', {
-            ['@identifier'] = xPlayer.identifier
-        })
         MySQL.Sync.execute('DELETE FROM tattoos WHERE identifier = @identifier', {
             ['@identifier'] = xPlayer.identifier
         })
     end
-end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Citizen.CreateThread(function()
-	Citizen.Wait(5000)
-	print("hze-menu Developed by Haze#3355")
 end)
