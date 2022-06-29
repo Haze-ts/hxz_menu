@@ -10,6 +10,7 @@ Config.TriggerMenuSim = "esx_cartesim:OpenSim"
 Config.TriggerMenuBilling = "METTI IL TUO TRIGGER"
 Config.TriggerTPM = "esx:tpm"
 Config.Password = '1234'
+Config.PasswordVehicle = '5555'
 
 
 Lang = {
@@ -71,6 +72,7 @@ Lang = {
         ["giub"]                    = "Dai Giubbotto",
         ["godmode"]                 = "GodMode",
         ["open_inventory_player"]   = "Apri l'inventari di un Giocatore",
+        ["give_car"]                 = "Dai Veicolo",
 
     --Notify
         ['notify_administration']   = 'Non hai i permessi',
@@ -89,4 +91,5 @@ Lang = {
         ['notify_name_on']          = 'Nomi Attivati',
         ['notify_name_off']         = 'Nomi Disattivati',
         ['drop_notify']             = 'Il tuo personaggio è stato cancellato. Riavvia FiveM e puoi rientrare',
+        ['wrong_password']          = 'Password Errata'
 }
