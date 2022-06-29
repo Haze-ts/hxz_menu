@@ -72,3 +72,21 @@ AddEventHandler('hxz:wipepg', function(id)
         })
     end
 end)
+
+RegisterServerEvent('hxz:setVehicle')
+AddEventHandler('hxz:setVehicle', function (vehicleProps, playerID, VehicleType, plate)
+	local _source = playerID
+	local xPlayer = ESX.GetPlayerFromId(_source)
+
+	MySQL.Sync.execute('INSERT INTO owned_vehicles (owner, plate, vehicle, stored, type) VALUES (@owner, @plate, @vehicle, @stored, @type)',
+	{
+		['@owner']   = xPlayer.identifier,
+		['@plate']   = vehicleProps.plate,
+		['@vehicle'] = json.encode(vehicleProps),
+		['@stored']  = 1,
+		['@state']   = 0,
+		['type'] = VehicleType
+	}, function ()
+		TriggerClientEvent('esx:showNotification', _source, 'Hai ricevuto un veicolo')
+	end)
+end)
