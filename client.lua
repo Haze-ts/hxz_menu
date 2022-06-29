@@ -356,15 +356,16 @@ function OpenAdminMenu()
 		  title    = "HXZ - menu amministrazione",
 		  align = 'top-left',
 		  elements = {	  			
-			{label = Lang["noclip"],			value = 'noclip'},
-			{label = Lang["tpm"],				value = "tpm"},
-			{label = Lang["repair_vehicle"],    value = "rveicolo"},
-			{label = Lang["flip_vehicle"],      value = "gveicolo"},
-			{label = Lang["car"],       		value = "car"},
-			{label = Lang["giub"],       		value = "giub"},
-			{label = Lang["godmode"],       	value = "godmode"},
-			{label = Lang["ghostmode"],       	value = "ghostmode"},
-			{label = Lang["wipe"],       		value = "wipe"},
+			{label = Lang["noclip"],					value = 'noclip'},
+			{label = Lang["tpm"],						value = "tpm"},
+			{label = Lang["repair_vehicle"],    		value = "rveicolo"},
+			{label = Lang["flip_vehicle"],      		value = "gveicolo"},
+			{label = Lang["car"],       				value = "car"},
+			{label = Lang["giub"],       				value = "giub"},
+			{label = Lang["godmode"],       			value = "godmode"},
+			{label = Lang["ghostmode"],       			value = "ghostmode"},
+			{label = Lang["open_inventory_player"], 	value = "open_inventory"},
+			{label = Lang["wipe"],       				value = "wipe"},
 		  	}
 	  },function(data, menu)
 
@@ -454,6 +455,12 @@ function OpenAdminMenu()
 			elseif inGhostMode == true then
 				ESX.ShowNotification(Lang['notify_ghostmode_off'])
 				inGhostMode = false
+			end
+		elseif val == 'open_inventory' then
+			local input = lib.inputDialog('Apri inventario', {'ID Player'})
+
+			if input then
+				exports.ox_inventory:openInventory('player', input[1])
 			end
         end
 	end, function(data, menu)
