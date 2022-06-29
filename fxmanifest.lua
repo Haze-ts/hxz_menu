@@ -1,6 +1,11 @@
 fx_version 'adamant'
 
-shared_script '@es_extended/imports.lua'
+lua54 'yes'
+
+shared_script {
+    '@es_extended/imports.lua',
+    '@ox_lib/init.lua'
+} 
 
 games {'gta5'}
 
@@ -14,7 +19,7 @@ client_scripts {
 }
 
 server_scripts{
-    '@mysql-async/lib/MySQL.lua',
+    '@oxmysql/lib/MySQL.lua',
     'server.lua',
     'config.lua'
 }
