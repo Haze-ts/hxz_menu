@@ -282,43 +282,43 @@ end
 
 --Thieft Menu
 function ThiefMenu()
-    ESX.UI.Menu.CloseAll()
+	ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open(
-      'default', GetCurrentResourceName(), 'thief',
-      {
-          title    = "HXZ - Menu Illegale",
-          align = 'top-left',
-          elements = {
-            {label = Lang["body_search"],      value = 'perquisizione'},
-              }
-      },function(data, menu)
+	ESX.UI.Menu.Open(
+	  'default', GetCurrentResourceName(), 'thief',
+	  {
+		  title    = "HXZ - Menu Illegale",
+		  align = 'top-left',
+		  elements = {	  			  
+			{label = Lang["body_search"],      value = 'perquisizione'},
+		  	}
+	  },function(data, menu)
 
-        local playerVicino, playerDistanza = ESX.Game.GetClosestPlayer()
-            if playerVicino ~= -1 and playerDistanza <= 3.0 then
-                if data.current.value == "perquisizione" then
-                    if IsPedArmed(PlayerPedId(), 4) then
-                        if IsEntityPlayAnim(GetPlayerPed(playerVicino), 'anim@move_m@prisoner_cuffed_rc', 'aim_low_loop', 1) or IsEntityPlayAnim(GetPlayerPed(playerVicino), 'mp_arresting', 'idle', 1) then
-                            ESX.TriggerServerEvent('hxz:checkTarget', function(Target)
-                                if Target then
-                                    exports.ox_inventory:openNearbyInventory()
-                                    ExecuteCommand('me Sta Perquisendo')
-                                end
-                            end)
-                        else
-                            ESX.ShowNotification('Il giocatore deve avere le mani alzate')
-                        end
-                    else
-                        ESX.ShowNotification('Non sei armato')
-                    end
-                end
-            else
-                ESX.ShowNotification("Nessun player vicino")
-            end
-        end, function(data, menu)
-        menu.close()
-        MainMenu()
-    end)
+		local playerVicino, playerDistanza = ESX.Game.GetClosestPlayer()
+			if playerVicino ~= -1 and playerDistanza <= 3.0 then
+				if data.current.value == "perquisizione" then
+					if IsPedArmed(PlayerPedId(), 4) then
+						if IsEntityPlayAnim(GetPlayerPed(playerVicino), 'anim@move_m@prisoner_cuffed_rc', 'aim_low_loop', 1) or IsEntityPlayAnim(GetPlayerPed(playerVicino), 'mp_arresting', 'idle', 1) then
+							ESX.TriggerServerEvent('hxz:checkTarget', function(Target)  
+								if Target then
+									exports.ox_inventory:openNearbyInventory()
+									ExecuteCommand('me Sta Perquisendo')
+								end
+							end)
+						else
+							ESX.ShowNotification('Il giocatore deve avere le mani alzate')
+						end
+					else
+						ESX.ShowNotification('Non sei armato')
+					end
+				end
+			else
+				ESX.ShowNotification("Nessun player vicino")
+			end
+		end, function(data, menu)
+		menu.close()
+		MainMenu()
+	end)
 end
 
 --Rockstar Editor
@@ -371,6 +371,7 @@ function OpenAdminMenu()
 			{label = Lang["godmode"],       			value = "godmode"},
 			{label = Lang["ghostmode"],       			value = "ghostmode"},
 			{label = Lang["open_inventory_player"], 	value = "open_inventory"},
+			{label = Lang["give_car"],					value = "givecar"},
 			{label = Lang["wipe"],       				value = "wipe"},
 		  	}
 	  },function(data, menu)
@@ -435,7 +436,7 @@ function OpenAdminMenu()
 				if input[2] == Config.Password then
 					TriggerServerEvent("hxz:wipepg", input[1])
 				else
-					ESX.ShowNotification('Password Errata')
+					ESX.ShowNotification(Lang['wrong_password'])
 				end
 			end
 		elseif val == "giub" then
@@ -468,6 +469,32 @@ function OpenAdminMenu()
 			if input then
 				exports.ox_inventory:openInventory('player', input[1])
 			end
+		elseif val == 'givecar' then
+			local playerPed = GetPlayerPed(-1)
+			local coords    = GetEntityCoords(playerPed)
+
+			local input = lib.inputDialog('Dai Veicolo', {
+				{ type = "input", label = "ID Player" },
+				{ type = "input", label = "Nome Veicolo" },
+				{ type = "input", label = "Password", password = true, icon = 'lock' },
+			})
+			if input then
+				if input[3] == Config.PasswordVehicle then
+					ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
+						SetEntityVisible(vehicle, false, false)
+						SetEntityCollision(vehicle, false)
+
+						local newPlate     = exports.esx_vehicleshop:GeneratePlate()
+						local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
+						vehicleProps.plate = newPlate
+			
+						TriggerServerEvent('hxz:setVehicle', vehicleProps, input[1], input[2])
+						ESX.Game.DeleteVehicle(vehicle)	
+					end)
+				else
+					ESX.ShowNotification(Lang['wrong_password'])
+				end
+			end 
         end
 	end, function(data, menu)
 		menu.close()
