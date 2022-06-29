@@ -297,20 +297,8 @@ function ThiefMenu()
 		local playerVicino, playerDistanza = ESX.Game.GetClosestPlayer()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				if data.current.value == "perquisizione" then
-					if IsPedArmed(PlayerPedId(), 4) then
-						if IsEntityPlayAnim(GetPlayerPed(playerVicino), 'anim@move_m@prisoner_cuffed_rc', 'aim_low_loop', 1) or IsEntityPlayAnim(GetPlayerPed(playerVicino), 'mp_arresting', 'idle', 1) then
-							ESX.TriggerServerEvent('hxz:checkTarget', function(Target)  
-								if Target then
-									exports.ox_inventory:openNearbyInventory()
-									ExecuteCommand('me Sta Perquisendo')
-								end
-							end)
-						else
-							ESX.ShowNotification('Il giocatore deve avere le mani alzate')
-						end
-					else
-						ESX.ShowNotification('Non sei armato')
-					end
+					menu.close()
+					OpenSearchMenu(playerVicino)
 				end
 			else
 				ESX.ShowNotification("Nessun player vicino")
@@ -319,6 +307,12 @@ function ThiefMenu()
 		menu.close()
 		MainMenu()
 	end)
+end
+
+
+function OpenSearchMenu(Player)
+	exports.ox_inventory:openInventory('player', GetPlayerServerId(Player))
+	return ESX.UI.Menu.CloseAll()
 end
 
 --Rockstar Editor
