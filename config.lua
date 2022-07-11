@@ -10,7 +10,7 @@ Config.TriggerMenuSim = "esx_cartesim:OpenSim"
 Config.TriggerMenuBilling = "METTI IL TUO TRIGGER"
 Config.TriggerTPM = "esx:tpm"
 Config.Password = '1234'
-Config.PasswordVehicle = '5555'
+Config.PasswordVehicle = '7777'
 
 
 Lang = {
@@ -42,7 +42,9 @@ Lang = {
         ['view_weapon_license']     = 'Guarda Porto D\'armi',
 
     --Clothes Menu
-        ["shirt"]                   = "Giacca",
+        ['reset']                   = "Reset",
+        ['jacket']                  = "Giacca",
+        ["shirt"]                   = "Maglietta",
         ["pants"]                   = "Pantaloni",
         ["shoes"]                   = "Scarpe",
         ["bullet"]                  = "Giubbotto Antiproiettile",
