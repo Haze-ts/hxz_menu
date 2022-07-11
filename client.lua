@@ -157,59 +157,64 @@ function ClothesMenu()
 	  {
 		  title    = "HXZ - Menu Vestiti",
 		  align = 'top-left',
-		  elements = {	  		  
-			{label = Lang["shirt"], 		value = "giacca"},
+		  elements = {	  	
+			{label = Lang["jacket"], 		value = "giacca"},
+			{label = Lang["shirt"], 		value = "shirt"},
 			{label = Lang["pants"],			value = "pantaloni"},
 			{label = Lang["shoes"], 		value = "scarpe"},
 			{label = Lang["bullet"], 		value = "giubbotto"},	
+			{label = Lang["reset"], 		value = "base_skin"}, 
 		  	}
 	  },function(data, menu)
-		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-			TriggerEvent('skinchanger:getSkin', function(skina)
-				if data.current.value == 'giacca' then
-					startAnim("clothingtie", "try_tie_negative_a")
-					Citizen.Wait(1200)
-					ClearPedTasks(PlayerPedId())
-					if skin.torso_1 ~= skina.torso_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['torso_1'] = skin.torso_1, ['torso_2'] = skin.torso_2, ['tshirt_1'] = skin.tshirt_1, ['tshirt_2'] = skin.tshirt_2, ['arms'] = skin.arms})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['torso_1'] = 15, ['torso_2'] = 0, ['tshirt_1'] = 15, ['tshirt_2'] = 0, ['arms'] = 15})
-					end
-				elseif data.current.value == 'pantaloni' then
-					startAnim("re@construction", "out_of_breath")
-					Citizen.Wait(1300)
-					ClearPedTasks(PlayerPedId())
-					if skin.pants_1 ~= skina.pants_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['pants_1'] = skin.pants_1, ['pants_2'] = skin.pants_2})
-					else
-						if skin.sex == 0 then
-							TriggerEvent('skinchanger:loadClothes', skina, {['pants_1'] = 61, ['pants_2'] = 1})
-						else
-							TriggerEvent('skinchanger:loadClothes', skina, {['pants_1'] = 15, ['pants_2'] = 0})
-						end
-					end
-				elseif data.current.value == 'scarpe' then
-					startAnim("random@domestic", "pickup_low")
-					Citizen.Wait(1300)
-					ClearPedTasks(PlayerPedId())
-					if skin.shoes_1 ~= skina.shoes_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = skin.shoes_1, ['shoes_2'] = skin.shoes_2})
-					else
-						if skin.sex == 0 then
-							TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = 34, ['shoes_2'] = 0})
-						else
-							TriggerEvent('skinchanger:loadClothes', skina, {['shoes_1'] = 35, ['shoes_2'] = 0})
-						end
-					end
-				elseif data.current.value == 'giubbotto' then
-					if skin.bproof_1 ~= skina.bproof_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['bproof_1'] = skin.bproof_1, ['bproof_2'] = skin.bproof_2})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['bproof_1'] = 0, ['bproof_2'] = 0})
-					end
+		if data.current.value == 'base_skin' then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+
+				local model = nil
+		  
+				if skin.sex == 0  then
+				model = GetHashKey("mp_m_freemode_01")
+				else
+				model = GetHashKey("mp_f_freemode_01")
+				end		 
+		  
+				RequestModel(model)
+				while not HasModelLoaded(model) do
+				RequestModel(model)
+				Citizen.Wait(1)
 				end
+		  
+				SetPlayerModel(PlayerId(), model)
+				SetModelAsNoLongerNeeded(model)
+		  
+				TriggerEvent('skinchanger:loadSkin', skin)
+				TriggerEvent('esx:restoreLoadout')
 			end)
-		end)
+		elseif data.current.value == 'shirt' then
+			startAnim("clothingtie", "try_tie_negative_a")
+			Citizen.Wait(1200)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 8, 3, 0, 0)
+	  	elseif data.current.value == 'giacca' then
+			startAnim("clothingtie", "try_tie_negative_a")
+			Citizen.Wait(1200)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 11, 0, 0, 0)
+		elseif data.current.value == 'pantaloni' then
+			startAnim("re@construction", "out_of_breath")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 4, 14, 0, 0)
+		elseif data.current.value == 'scarpe' then
+			startAnim("random@domestic", "pickup_low")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 6, 34, 0, 0)
+		elseif data.current.value == 'giubbotto' then
+			startAnim("random@domestic", "pickup_low")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 9, 0, 0, 0)
+		end
 	end, function(data, menu)
 		menu.close()
 		MainMenu()
@@ -230,50 +235,53 @@ function AccessoryMenu()
 			{label = Lang["glass"], 	value = "occhiali"},
 			{label = Lang["hat"], 		value = "casco"},
 			{label = Lang["bag"], 		value = "borsa"},
+			{label = Lang["reset"], 		value = "base_skin"},
 		  	}
 	  },function(data, menu)
-		ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
-			TriggerEvent('skinchanger:getSkin', function(skina)
+		if data.current.value == 'base_skin' then
+			ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
 
-				if data.current.value == 'maschera' then
-					startAnim("mp_masks@standard_car@ds@", "put_on_mask")
-					Citizen.Wait(1300)
-					ClearPedTasks(PlayerPedId())
-					if skin.mask_1 ~= skina.mask_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['mask_1'] = skin.mask_1, ['mask_2'] = skin.mask_2})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['mask_1'] = 0, ['mask_2'] = 0})
-					end
-				elseif data.current.value == 'occhiali' then
-					startAnim("clothingspecs", "take_off")
-					Citizen.Wait(1300)
-					ClearPedTasks(PlayerPedId())
-					if skin.glasses_1 ~= skina.glasses_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['glasses_1'] = skin.glasses_1, ['glasses_2'] = skin.glasses_2})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['glasses_1'] = 0, ['glasses_2'] = 0})
-					end
-				elseif data.current.value == 'casco' then
-					startAnim("missheist_agency2ahelmet", "take_off_helmet_stand")
-					Citizen.Wait(1300)
-					ClearPedTasks(PlayerPedId())
-					if skin.helmet_1 ~= skina.helmet_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['helmet_1'] = skin.helmet_1, ['helmet_2'] = skin.helmet_2})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['helmet_1'] = -1, ['helmet_2'] = 0})
-					end
-				elseif data.current.value == 'borsa' then
-					startAnim("clothingtie", "try_tie_negative_a")
-					Citizen.Wait(1300)
-					ClearPedTasks(PlayerPedId())
-					if skin.bags_1 ~= skina.bags_1 then
-						TriggerEvent('skinchanger:loadClothes', skina, {['bags_1'] = skin.bags_1, ['bags_2'] = skin.bags_2})
-					else
-						TriggerEvent('skinchanger:loadClothes', skina, {['bags_1'] = 0, ['bags_2'] = 0})
-					end
+				local model = nil
+		  
+				if skin.sex == 0  then
+				model = GetHashKey("mp_m_freemode_01")
+				else
+				model = GetHashKey("mp_f_freemode_01")
+				end		 
+		  
+				RequestModel(model)
+				while not HasModelLoaded(model) do
+				RequestModel(model)
+				Citizen.Wait(1)
 				end
+		  
+				SetPlayerModel(PlayerId(), model)
+				SetModelAsNoLongerNeeded(model)
+		  
+				TriggerEvent('skinchanger:loadSkin', skin)
+				TriggerEvent('esx:restoreLoadout')
 			end)
-		end)
+		elseif data.current.value == 'maschera' then
+			startAnim("mp_masks@standard_car@ds@", "put_on_mask")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 1, 0, 0, 0)
+		elseif data.current.value == 'occhiali' then
+			startAnim("clothingspecs", "take_off")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedPropIndex(PlayerPedId(), 1, 11, 0, 0 )
+		elseif data.current.value == 'casco' then
+			startAnim("missheist_agency2ahelmet", "take_off_helmet_stand")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedPropIndex(PlayerPedId(), 0, 8, 0, 0 )
+		elseif data.current.value == 'borsa' then
+			startAnim("clothingtie", "try_tie_negative_a")
+			Citizen.Wait(1300)
+			ClearPedTasks(PlayerPedId())
+			SetPedComponentVariation(PlayerPedId(), 5, 0, 0, 0)
+		end
 	end, function(data, menu)
 		menu.close()
 		MainMenu()
@@ -470,6 +478,7 @@ function OpenAdminMenu()
 				exports.ox_inventory:openInventory('player', input[1])
 			end
 		elseif val == 'givecar' then
+			print('car')
 			local playerPed = GetPlayerPed(-1)
 			local coords    = GetEntityCoords(playerPed)
 
@@ -478,8 +487,8 @@ function OpenAdminMenu()
 				{ type = "input", label = "Nome Veicolo" },
 				{ type = "input", label = "Password", password = true, icon = 'lock' },
 			})
-			if input then
-				if input[3] == Config.PasswordVehicle then
+			ESX.TriggerServerCallback('hxz:vpassword', function(risultato)
+				if input[3] == risultato then
 					ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
 						SetEntityVisible(vehicle, false, false)
 						SetEntityCollision(vehicle, false)
@@ -489,12 +498,12 @@ function OpenAdminMenu()
 						vehicleProps.plate = newPlate
 			
 						TriggerServerEvent('hxz:setVehicle', vehicleProps, input[1], input[2])
-						ESX.Game.DeleteVehicle(vehicle)	
+						ESX.Game.DeleteVehicle(vehicle)
 					end)
 				else
 					ESX.ShowNotification(Lang['wrong_password'])
 				end
-			end 
+			end)
         end
 	end, function(data, menu)
 		menu.close()
@@ -628,7 +637,6 @@ end
 
 function HXZ_GhostMode()
     local ped = PlayerPedId()
-
     Citizen.CreateThread(function()
         while true do
             Citizen.Wait(1)
