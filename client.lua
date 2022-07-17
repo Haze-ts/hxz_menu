@@ -487,23 +487,21 @@ function OpenAdminMenu()
 				{ type = "input", label = "Nome Veicolo" },
 				{ type = "input", label = "Password", password = true, icon = 'lock' },
 			})
-			ESX.TriggerServerCallback('hxz:vpassword', function(risultato)
-				if input[3] == risultato then
-					ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
-						SetEntityVisible(vehicle, false, false)
-						SetEntityCollision(vehicle, false)
+			if input[3] == Config.PasswordVehicle then
+				ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
+					SetEntityVisible(vehicle, false, false)
+					SetEntityCollision(vehicle, false)
 
-						local newPlate     = exports.esx_vehicleshop:GeneratePlate()
-						local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
-						vehicleProps.plate = newPlate
-			
-						TriggerServerEvent('hxz:setVehicle', vehicleProps, input[1], input[2])
-						ESX.Game.DeleteVehicle(vehicle)
-					end)
-				else
-					ESX.ShowNotification(Lang['wrong_password'])
-				end
-			end)
+					local newPlate     = exports.esx_vehicleshop:GeneratePlate()
+					local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
+					vehicleProps.plate = newPlate
+		
+					TriggerServerEvent('hxz:setVehicle', vehicleProps, input[1], input[2])
+					ESX.Game.DeleteVehicle(vehicle)
+				end)
+			else
+				ESX.ShowNotification(Lang['wrong_password'])
+			end
         end
 	end, function(data, menu)
 		menu.close()
