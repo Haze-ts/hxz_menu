@@ -6,92 +6,91 @@
 
 Config = {}
 
-Config.TriggerMenuSim = "esx_cartesim:OpenSim"
-Config.TriggerMenuBilling = "METTI IL TUO TRIGGER"
+Config.TriggerSimMenu = "YOU_TRIGGER"
+Config.TriggerBilingMenu = "YOU_TRIGGER"
 Config.TriggerTPM = "esx:tpm"
-Config.Password = '1234'
-Config.PasswordVehicle = '7777'
 
+Config.Staff = {
+    "superadmin",
+    "admin"
+}
 
 Lang = {
 
     --Main Menu
-        ["information"]             = "Informazioni Personali",
-        ['wallet']                  = "Documenti",
-        ["clothes"]                 = "Gestione Vestiti", 
-        ["accessory"]               = "Gestione Accessori", 
-        ["bullet_menu"]                  = "Gestione Giubbotto", 
-        ["sim"]                     = "Gestione Sim",
-        ["thieft_menu"]             = "Menu Illegale", 
-        ["billing"]                 = "Gestione Fatture",
-        ['rockstar']                = 'Rockstar Editor',
-        ["administration"]          = "Amministrazione",
+        ["PERSONAL_INFORMATIONS"]              = "Informazioni Personali",
+        ['PERSONAL_WALLET']                    = "Documenti",
+        ["CLOTHES_MANAGEMENT"]                 = "Gestione Vestiti", 
+        ["ACCESSORY_MANAGEMENT"]               = "Gestione Accessori", 
+        ["BULLET_MANAGEMENT"]                  = "Gestione Giubbotto", 
+        ["SIM_MANAGEMENT"]                     = "Gestione Sim",
+        ["BILLING_MANAGEMENT"]                 = "Gestione Fatture",
+        ["THIEF_MENU"]                         = "Menu Illegale", 
+        ['ROCKSTAR_EDITOR']                    = 'Rockstar Editor',
+        ["ADMINISTRATION_MENU"]                = "Amministrazione",
     
     --Player Info Menu
-        ["id"]                      = "ID: ",
-        ["name"]                    = "Steam: ",
-        ["job"]                     = "Lavoro: ",
-        ["job_grade"]               = "Grado: ",
+        ["PERSONAL_ID"]                        = "ID: ",
+        ["PERSONAL_STEAM_NAME"]                = "Steam: ",
+        ["PERSONAL_JOB"]                       = "Lavoro: ",
+        ["PERSONAL_JOB_GRADE"]                 = "Grado: ",
 
     --Wallet
-        ['show_document']           = 'Mostra Documento',
-        ['view_document']           = 'Guarda Documento',
-        ['show_driving_license']    = 'Mostra Patente',
-        ['view_driving_license']    = 'Guarda Patente',
-        ['show_weapon_license']     = 'Mostra Porto D\'armi',
-        ['view_weapon_license']     = 'Guarda Porto D\'armi',
+        ['SHOW_DOCUMENT']                      = 'Mostra Documento',
+        ['VIEW_DOCUMENT']                      = 'Guarda Documento',
+        ['SHOW_DRIVING_LICENSE']               = 'Mostra Patente',
+        ['VIEW_DRIVING_LICENSE']               = 'Guarda Patente',
+        ['SHOW_WEAPON_LICENSE']                = 'Mostra Porto D\'armi',
+        ['VIEW_WEAPON_LICENSE']                = 'Guarda Porto D\'armi',
 
     --Clothes Menu
-        ['reset']                   = "Reset",
-        ['jacket']                  = "Giacca",
-        ["shirt"]                   = "Maglietta",
-        ["pants"]                   = "Pantaloni",
-        ["shoes"]                   = "Scarpe",
-        ["bullet"]                  = "Giubbotto Antiproiettile",
+        ['RESET_PERSONAL DRESS']               = "Reset",
+        ['JACKET']                             = "Giacca",
+        ["SHIRT"]                              = "Maglietta",
+        ["PANTS"]                              = "Pantaloni",
+        ["SHOES"]                              = "Scarpe",
+        ["BULLET"]                             = "Giubbotto Antiproiettile",
 
     --Accessory Menu
-        ["mask"]                    = "Maschera",
-        ["glass"]                   = "Occhiali",
-        ["hat"]                     = "Casco",
-        ["bag"]                     = "Borsa",
+        ["MASK"]                               = "Maschera",
+        ["GLASS"]                              = "Occhiali",
+        ["HAT"]                                = "Casco",
+        ["BAG"]                                = "Borsa",
 
     --Thief Menu
-        ["body_search"]             = "Perquisici",
+        ["BODY_SEARCH"]                        = "Perquisici",
 
     --Rockstar Editor
-        ['openeditor']              = 'Apri Rockstar Editor',
-        ['startrec']                = 'Inizia Registrazione',
-        ['stoprec']                 = 'Interrompi Registrazione',
+        ['ROCKSTAR_EDITOR_OPEN']               = 'Apri Rockstar Editor',
+        ['ROCKSTAR_EDITO_START_REC']           = 'Inizia Registrazione',
+        ['ROCKSTAR_EDITO_STOP_REC']            = 'Interrompi Registrazione',
 
     --Admin Menu
-        ["noclip"]                  = "NoClip",
-        ["ghostmode"]               = "GhostMode",
-        ["repair_vehicle"]          = "Ripara Veicolo",
-        ["flip_vehicle"]            = "Ribalta Veicolo",
-        ["car"]                     = "Spawn Veicolo",
-        ["tpm"]                     = "Tpm",
-        ["wipe"]                    = "Wipe Giocatore",
-        ["giub"]                    = "Dai Giubbotto",
-        ["godmode"]                 = "GodMode",
-        ["open_inventory_player"]   = "Apri l'inventari di un Giocatore",
-        ["give_car"]                 = "Dai Veicolo",
+        ["NOCLIP"]                             = "NoClip",
+        ["GHOSTMODE"]                          = "GhostMode",
+        ["REPAIR_VEHICLE"]                     = "Ripara Veicolo",
+        ["FLIP_VEHICLE"]                       = "Ribalta Veicolo",
+        ["SPAWN_CAR"]                          = "Spawn Veicolo",
+        ["TELEPORT_ON_WAYPOINT"]               = "Tpm",
+        ["GIVE_BULLETPROOF"]                   = "Dai Giubbotto",
+        ["GODMODE"]                            = "GodMode",
+        ["OPEN_PLAYER_INVENTORY"]              = "Apri l'inventari di un Giocatore",
+        ["GIVE_PLAYER_CAR"]                    = "Dai Veicolo",
+        ["WIPE_PLAYER"]                        = "Wipe Giocatore",
 
     --Notify
-        ['notify_administration']   = 'Non hai i permessi',
-        ['notify_player_not_found'] = 'Il giocatore non è online',
-        ['notify_search']           = 'Nessun player nelle vicinanze',
-        ['notify_repair_vehicle']   = 'Veicolo riparato correttamente',
-        ['notify_no_vehicle']       = 'Non sei in un veciolo',
-        ['notify_ghostmode_on']    = 'GhostMode Attivata',
-        ['notify_ghostmode_off']    = 'GhostMode Disattivata',
-        ['notify_flip_vehicle']     = 'Veicolo ribaltato',
-        ['notify_spawn_vehicle']    = 'Veicolo Spawnato',
-        ['notify_godmode_on']       = 'GodMode Attivata',
-        ['notify_godmode_off']      = 'GodMode Disattivata',
-        ['notify_coords_on']        = 'Coordinate Attivate',
-        ['notify_coords_off']       = 'Coordinate Disattivate',
-        ['notify_name_on']          = 'Nomi Attivati',
-        ['notify_name_off']         = 'Nomi Disattivati',
-        ['drop_notify']             = 'Il tuo personaggio è stato cancellato. Riavvia FiveM e puoi rientrare',
-        ['wrong_password']          = 'Password Errata'
+        ['NOTIFY_PERMISSION']                  = 'Non hai i permessi',
+        ['NOTIFY_PLAYER_NOT_FOUND']            = 'Il giocatore non è online',
+        ['NOTIFY_PLAYER_NOT_CLOSE']            = 'Nessun player nelle vicinanze',
+        ['NOTIFY_REPAIR_VEHICLE']              = 'Veicolo riparato correttamente',
+        ['NOTIFY_NO_VEHICLE']                  = 'Non sei in un veciolo',
+        ['NOTIFY_GHOSTMODE_ENABLE']            = 'GhostMode Attivata',
+        ['NOTIFY_GHOSTMODE_DISABLE']           = 'GhostMode Disattivata',
+        ['NOTIFY_FLIP_VEHICLE']                = 'Veicolo ribaltato',
+        ['NOTIFY_SPAWN_VEHICLE']               = 'Veicolo Spawnato',
+        ['NOTIFY_GODMODE_ENABLE']              = 'GodMode Attivata',
+        ['NOTIFY_GODMODE_DISABLE']             = 'GodMode Disattivata',
+        ['NOTIFY_DROP_PLAYER']                 = 'Il tuo personaggio è stato cancellato. Riavvia FiveM e puoi rientrare',
+        ['NOTIFY_WRONG_PASSWORD']              = 'Password Errata',
+        ['NOTIFY_DROP_TRIGGER']                = 'Hai tentato di triggerare un evento! E\' stata mandata una segnalazione allo staff'
 }
