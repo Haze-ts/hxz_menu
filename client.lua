@@ -1,5 +1,4 @@
 local inGodMode = false
-local activenames = false
 local inGhostMode = false
 
 RegisterNetEvent('esx:playerLoaded')
@@ -22,16 +21,16 @@ function MainMenu()
 		  title    = "HXZ - menu principale",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang["information"],			value = 'info_menu'}, 
-			{label = Lang["wallet"],      			value = 'wallet_menu'}, 
-			{label = Lang["clothes"],  				value = 'clothes_menu'}, 
-			{label = Lang["accessory"],				value = 'accessory_menu'},
-			{label = Lang["bullet_menu"],				value = 'bullet'},
-			{label = Lang["sim"],               	value =  "sim"},
-			{label = Lang["billing"], 				value = 'billing_menu'},
-			{label = Lang["thieft_menu"], 			value = 'thieft_menu'},
-			{label = Lang["rockstar"], 				value = 'rockstar'},
-			{label = Lang["administration"], 		value = 'administration'},
+			{label = Lang["PERSONAL_INFORMATIONS"],				value = 'info_menu'}, 
+			{label = Lang['PERSONAL_WALLET'] ,      			value = 'wallet_menu'}, 
+			{label = Lang["CLOTHES_MANAGEMENT"] ,  				value = 'clothes_menu'}, 
+			{label = Lang["ACCESSORY_MANAGEMENT"],				value = 'accessory_menu'},
+			{label = Lang["BULLET_MANAGEMENT"],					value = 'bullet'},
+			{label = Lang["SIM_MANAGEMENT"]    ,               	value =  "sim"},
+			{label = Lang["BILLING_MANAGEMENT"], 				value = 'billing_menu'},
+			{label = Lang["THIEF_MENU"], 						value = 'thieft_menu'},
+			{label = Lang['ROCKSTAR_EDITOR'], 					value = 'rockstar'},
+			{label = Lang["ADMINISTRATION_MENU"], 				value = 'administration'},
 		  	}
 	  },function(data, menu)
 
@@ -54,13 +53,13 @@ function MainMenu()
 		elseif data.current.value == 'rockstar' then
 			RockstarEditor()
 		elseif data.current.value == 'administration' then
-			ESX.TriggerServerCallback("hxz:checkgroup", function(playerRank)
-       		if playerRank == "admin" or playerRank == "superadmin" then
+			--ESX.TriggerServerCallback("hxz:checkgroup", function(playerRank)
+       		--if playerRank == "admin" or playerRank == "superadmin" then
 				OpenAdminMenu()
-	  		else 
-		 		ESX.ShowNotification(Lang['notify_administration'])
-	  		end
-		end)
+	  		--else 
+		 	--	ESX.ShowNotification(Lang['NOTIFY_PERMISSION'])
+	  		--end
+		--end)
         end
 	end, function(data, menu)
 		menu.close()
@@ -77,12 +76,12 @@ function WalletMenu()
 		  title    = "HXZ - Gestione Documenti",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang['show_document'],				value = 'show_document'}, 
-			{label = Lang['view_document'],		    	value = 'view_document'},
-			{label = Lang['show_driving_license'],		value = 'show_driving_license'},
-			{label = Lang['view_driving_license'],		value = 'view_driving_license'},
-			{label = Lang['show_weapon_license'],		value = 'show_weapon_license'},
-			{label = Lang['view_weapon_license'],		value = 'view_weapon_license'},
+			{label = Lang['SHOW_DOCUMENT'] ,				value = 'show_document'}, 
+			{label = Lang['VIEW_DOCUMENT'],		    	value = 'view_document'},
+			{label = Lang['SHOW_DRIVING_LICENSE'],		value = 'show_driving_license'},
+			{label = Lang['VIEW_DRIVING_LICENSE'],		value = 'view_driving_license'},
+			{label = Lang['SHOW_WEAPON_LICENSE'],		value = 'show_weapon_license'},
+			{label = Lang['VIEW_WEAPON_LICENSE'],		value = 'view_weapon_license'},
 		  	}
 	  },function(data, menu)
 		if data.current.value == 'show_document' then
@@ -90,7 +89,7 @@ function WalletMenu()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(playerVicino))
 			else
-				ESX.ShowNotification(Lang['notify_search'])
+				ESX.ShowNotification(Lang['NOTIFY_PLAYER_NOT_CLOSE'])
 			end
 		elseif data.current.value == 'view_document' then
 			menu.close()
@@ -100,7 +99,7 @@ function WalletMenu()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(playerVicino), 'driver')
 			else
-				ESX.ShowNotification(Lang['notify_search'])
+				ESX.ShowNotification(Lang['NOTIFY_PLAYER_NOT_CLOSE'])
 			end
 		elseif data.current.value == 'view_driving_license' then
 			print('Patente Mostrata')
@@ -111,7 +110,7 @@ function WalletMenu()
 			if playerVicino ~= -1 and playerDistanza <= 3.0 then
 				TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(playerVicino), 'weapon')
 			else
-				ESX.ShowNotification(Lang['notify_search'])
+				ESX.ShowNotification(Lang['NOTIFY_PLAYER_NOT_CLOSE'])
 			end
 		elseif data.current.value == 'view_weapon_license' then
 			menu.close()
@@ -134,10 +133,10 @@ function PlayerInfoMenu()
 		  title    = "HXZ - Informazioni personali",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang["id"]   		        .. GetPlayerServerId(NetworkGetEntityOwner(PlayerPedId()))}, 
-			{label = Lang["name"]		        .. GetPlayerName(NetworkGetEntityOwner(PlayerPedId()))},
-			{label = Lang["job"]      			.. ESX.PlayerData.job.label}, 
-			{label = Lang["job_grade"]			.. ESX.PlayerData.job.grade_label},
+			{label = Lang["PERSONAL_ID"]   		        .. GetPlayerServerId(NetworkGetEntityOwner(PlayerPedId()))}, 
+			{label = Lang["PERSONAL_STEAM_NAME"]		        .. GetPlayerName(NetworkGetEntityOwner(PlayerPedId()))},
+			{label = Lang["PERSONAL_JOB"]      			.. ESX.PlayerData.job.label}, 
+			{label = Lang["PERSONAL_JOB_GRADE"]			.. ESX.PlayerData.job.grade_label},
 		  	}
 	  },function(data, menu)
 		menu.close()
@@ -158,12 +157,12 @@ function ClothesMenu()
 		  title    = "HXZ - Menu Vestiti",
 		  align = 'top-left',
 		  elements = {	  	
-			{label = Lang["jacket"], 		value = "giacca"},
-			{label = Lang["shirt"], 		value = "shirt"},
-			{label = Lang["pants"],			value = "pantaloni"},
-			{label = Lang["shoes"], 		value = "scarpe"},
-			{label = Lang["bullet"], 		value = "giubbotto"},	
-			{label = Lang["reset"], 		value = "base_skin"}, 
+			{label = Lang['JACKET'], 		value = "giacca"},
+			{label = Lang["SHIRT"], 		value = "shirt"},
+			{label = Lang["PANTS"],			value = "pantaloni"},
+			{label = Lang["SHOES"], 		value = "scarpe"},
+			{label = Lang["BULLET"], 		value = "giubbotto"},	
+			{label = Lang['RESET_PERSONAL DRESS'], 		value = "base_skin"}, 
 		  	}
 	  },function(data, menu)
 		if data.current.value == 'base_skin' then
@@ -231,11 +230,11 @@ function AccessoryMenu()
 		  title    = "HXZ - Menu Accessori",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang["mask"], 		value = "maschera"},
-			{label = Lang["glass"], 	value = "occhiali"},
-			{label = Lang["hat"], 		value = "casco"},
-			{label = Lang["bag"], 		value = "borsa"},
-			{label = Lang["reset"], 		value = "base_skin"},
+			{label = Lang["MASK"], 		value = "maschera"},
+			{label = Lang["GLASS"], 	value = "occhiali"},
+			{label = Lang["HAT"], 		value = "casco"},
+			{label = Lang["BAG"], 		value = "borsa"},
+			{label = Lang['RESET_PERSONAL DRESS'], 		value = "base_skin"},
 		  	}
 	  },function(data, menu)
 		if data.current.value == 'base_skin' then
@@ -298,7 +297,7 @@ function ThiefMenu()
 		  title    = "HXZ - Menu Illegale",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang["body_search"],      value = 'perquisizione'},
+			{label = Lang["BODY_SEARCH"],      value = 'perquisizione'},
 		  	}
 	  },function(data, menu)
 
@@ -339,9 +338,9 @@ function RockstarEditor()
 		  title    = "HXZ - Rockstar Editor",
 		  align = 'top-left',
 		  elements = {	  		  
-			{label = Lang["openeditor"],	 	value = "open"},
-			{label = Lang["startrec"],			value = "startrec"},
-			{label = Lang["stoprec"],			value = "stoprec"},
+			{label = Lang['ROCKSTAR_EDITOR_OPEN'] ,	 	value = "open"},
+			{label = Lang['ROCKSTAR_EDITO_START_REC'],			value = "startrec"},
+			{label = Lang['ROCKSTAR_EDITO_STOP_REC'],			value = "stoprec"},
 		  	}
 	  },function(data, menu)
 		if data.current.value == 'open' then
@@ -370,17 +369,17 @@ function OpenAdminMenu()
 		  title    = "HXZ - menu amministrazione",
 		  align = 'top-left',
 		  elements = {	  			
-			{label = Lang["noclip"],					value = 'noclip'},
-			{label = Lang["tpm"],						value = "tpm"},
-			{label = Lang["repair_vehicle"],    		value = "rveicolo"},
-			{label = Lang["flip_vehicle"],      		value = "gveicolo"},
-			{label = Lang["car"],       				value = "car"},
-			{label = Lang["giub"],       				value = "giub"},
-			{label = Lang["godmode"],       			value = "godmode"},
-			{label = Lang["ghostmode"],       			value = "ghostmode"},
-			{label = Lang["open_inventory_player"], 	value = "open_inventory"},
-			{label = Lang["give_car"],					value = "givecar"},
-			{label = Lang["wipe"],       				value = "wipe"},
+			{label = Lang["NOCLIP"],					value = 'noclip'},
+			{label = Lang["TELEPORT_ON_WAYPOINT"],		value = "tpm"},
+			{label = Lang["REPAIR_VEHICLE"],    		value = "rveicolo"},
+			{label = Lang["FLIP_VEHICLE"],      		value = "gveicolo"},
+			{label = Lang["SPAWN_CAR"],       			value = "car"},
+			{label = Lang["GIVE_BULLETPROOF"],     		value = "giub"},
+			{label = Lang["GODMODE"],       			value = "godmode"},
+			{label = Lang["GHOSTMODE"],       			value = "ghostmode"},
+			{label = Lang["OPEN_PLAYER_INVENTORY"], 	value = "open_inventory"},
+			{label = Lang["GIVE_PLAYER_CAR"] ,			value = "givecar"},
+			{label = Lang["WIPE_PLAYER"],       		value = "wipe"},
 		  	}
 	  },function(data, menu)
 
@@ -397,9 +396,9 @@ function OpenAdminMenu()
             if IsPedInAnyVehicle(PlayerPedId(), false) then
                 SetVehicleFixed(GetVehiclePedIsUsing(PlayerPedId()))	
                 SetVehicleDirtLevel(GetVehiclePedIsUsing(PlayerPedId()),0)
-				ESX.ShowNotification(Lang['notify_repair_vehicle'])
+				ESX.ShowNotification(Lang['NOTIFY_REPAIR_VEHICLE'])
             else
-				ESX.ShowNotification(Lang['notify_no_vehicle'])
+				ESX.ShowNotification(Lang['NOTIFY_NO_VEHICLE'])
             end
         elseif val == "gveicolo" then
             local player = PlayerPedId()
@@ -412,7 +411,7 @@ function OpenAdminMenu()
             local playerCoords = GetEntityCoords(PlayerPedId())
             playerCoords = playerCoords + vector3(0, 2, 0)
             SetEntityCoords(carTargetDep, playerCoords)
-			ESX.ShowNotification(Lang['notify_flip_vehicle'])
+			ESX.ShowNotification(Lang['NOTIFY_FLIP_VEHICLE'])
 		elseif val == "car" then
 			local input = lib.inputDialog('Spawna un veicolo', {'Inserisci il nome del veicolo'})
 
@@ -429,7 +428,7 @@ function OpenAdminMenu()
 				SetModelAsNoLongerNeeded(ModelHash)
 				TaskWarpPedIntoVehicle(PlayerPedId(), Vehicle, -1)
 				ESX.UI.Menu.CloseAll()
-				ESX.ShowNotification(Lang['notify_spawn_vehicle'])
+				ESX.ShowNotification(Lang['NOTIFY_SPAWN_VEHICLE'])
 			end
 		elseif val == "tpm" then
 			TriggerEvent(Config.TriggerTPM)
@@ -440,13 +439,12 @@ function OpenAdminMenu()
 				{ type = "input", label = "Password", password = true, icon = 'lock' },
 			})
 
-			if input then
-				if input[2] == Config.Password then
+
+			ESX.TriggerServerCallback('hxz:wipepassword', function(h)
+				if h == true then
 					TriggerServerEvent("hxz:wipepg", input[1])
-				else
-					ESX.ShowNotification(Lang['wrong_password'])
 				end
-			end
+			end, input[3])
 		elseif val == "giub" then
 			local input = lib.inputDialog('Dai Giubbotto', {'Id Player'})
 
@@ -455,20 +453,20 @@ function OpenAdminMenu()
 			end
 		elseif val == "godmode" then
 			if inGodMode == false then
-				ESX.ShowNotification(Lang['notify_godmode_on'])
+				ESX.ShowNotification(Lang['NOTIFY_GODMODE_ENABLE'])
 				inGodMode = true
 				HXZ_GodMode()
 			elseif inGodMode == true then
-				ESX.ShowNotification(Lang['notify_godmode_off'])
+				ESX.ShowNotification(Lang['NOTIFY_GODMODE_DISABLE'])
 				inGodMode = false
 			end
 		elseif val == "ghostmode" then
 			if inGhostMode == false then
-				ESX.ShowNotification(Lang['notify_ghostmode_on'])
+				ESX.ShowNotification(Lang['NOTIFY_GHOSTMODE_ENABLE'])
 				inGhostMode = true
 				HXZ_GhostMode()
 			elseif inGhostMode == true then
-				ESX.ShowNotification(Lang['notify_ghostmode_off'])
+				ESX.ShowNotification(Lang['NOTIFY_GHOSTMODE_DISABLE'])
 				inGhostMode = false
 			end
 		elseif val == 'open_inventory' then
@@ -487,21 +485,22 @@ function OpenAdminMenu()
 				{ type = "input", label = "Nome Veicolo" },
 				{ type = "input", label = "Password", password = true, icon = 'lock' },
 			})
-			if input[3] == Config.PasswordVehicle then
-				ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
-					SetEntityVisible(vehicle, false, false)
-					SetEntityCollision(vehicle, false)
 
-					local newPlate     = exports.esx_vehicleshop:GeneratePlate()
-					local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
-					vehicleProps.plate = newPlate
-		
-					TriggerServerEvent('hxz:setVehicle', vehicleProps, input[1], input[2])
-					ESX.Game.DeleteVehicle(vehicle)
-				end)
-			else
-				ESX.ShowNotification(Lang['wrong_password'])
-			end
+			ESX.TriggerServerCallback('hxz:vpassword', function(r)
+				if r == true then
+					ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
+						SetEntityVisible(vehicle, false, false)
+						SetEntityCollision(vehicle, false)
+
+						local newPlate     = exports.esx_vehicleshop:GeneratePlate()
+						local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
+						vehicleProps.plate = newPlate
+			
+						TriggerServerEvent('hxz:setVehicle', vehicleProps, input[1], input[2])
+						ESX.Game.DeleteVehicle(vehicle)
+					end)
+				end
+			end, input[3])
         end
 	end, function(data, menu)
 		menu.close()
