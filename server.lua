@@ -82,6 +82,28 @@ AddEventHandler('hxz:wipepg', function(id)
     end
 end)
 
+ESX.RegisterServerCallback('hxz:vpassword', function(source, cb, password_vehicle)
+    MySQL.Async.fetchAll('SELECT password_vehicle FROM hxz_menu_password',{
+	},function(result)
+        if result[1].password_vehicle == password_vehicle then
+            cb(true)
+        else
+            TriggerClientEvent('esx:showNotification', source, Lang['NOTIFY_WRONG_PASSWORD'])
+        end
+	end)
+end)
+
+ESX.RegisterServerCallback('hxz:wipepassword', function(source, cb, password_wipe)
+    MySQL.Async.fetchAll('SELECT password_wipe FROM hxz_menu_password',{
+	},function(result)
+        if result[1].password_vehicle == password_wipe then
+            cb(true)
+        else
+            TriggerClientEvent('esx:showNotification', source, Lang['NOTIFY_WRONG_PASSWORD'])
+        end
+	end)
+end)
+
 RegisterServerEvent('hxz:setVehicle')
 AddEventHandler('hxz:setVehicle', function (vehicleProps, playerID, VehicleType, plate)
 	local _source = playerID
