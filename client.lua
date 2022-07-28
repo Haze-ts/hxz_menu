@@ -53,13 +53,13 @@ function MainMenu()
 		elseif data.current.value == 'rockstar' then
 			RockstarEditor()
 		elseif data.current.value == 'administration' then
-			--ESX.TriggerServerCallback("hxz:checkgroup", function(playerRank)
-       		--if playerRank == "admin" or playerRank == "superadmin" then
+			ESX.TriggerServerCallback("hxz:checkgroup", function(playerRank)
+       		if playerRank == "admin" or playerRank == "superadmin" then
 				OpenAdminMenu()
-	  		--else 
-		 	--	ESX.ShowNotification(Lang['NOTIFY_PERMISSION'])
-	  		--end
-		--end)
+	  		else 
+		 		ESX.ShowNotification(Lang['NOTIFY_PERMISSION'])
+	  		end
+		end)
         end
 	end, function(data, menu)
 		menu.close()
