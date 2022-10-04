@@ -45,11 +45,11 @@ function MainMenu()
 		elseif data.current.value == "bullet" then
 			TriggerEvent('hxz:menubullet')
 		elseif data.current.value == "sim" then
-			TriggerEvent(Config.TriggerMenuSim)
+			TriggerEvent(Config.TriggerSimMenu)
 		elseif data.current.value == "thieft_menu" then
 			ThiefMenu()
 		elseif data.current.value == "billing_menu" then
-			TriggerEvent(Config.TriggerMenuBilling)
+			TriggerEvent(Config.TriggerBillingMenu)
 		elseif data.current.value == 'rockstar' then
 			RockstarEditor()
 		elseif data.current.value == 'administration' then
@@ -76,7 +76,7 @@ function WalletMenu()
 		  title    = "HXZ - Gestione Documenti",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang['SHOW_DOCUMENT'] ,				value = 'show_document'}, 
+			{label = Lang['SHOW_DOCUMENT'] ,			value = 'show_document'}, 
 			{label = Lang['VIEW_DOCUMENT'],		    	value = 'view_document'},
 			{label = Lang['SHOW_DRIVING_LICENSE'],		value = 'show_driving_license'},
 			{label = Lang['VIEW_DRIVING_LICENSE'],		value = 'view_driving_license'},
@@ -133,10 +133,10 @@ function PlayerInfoMenu()
 		  title    = "HXZ - Informazioni personali",
 		  align = 'top-left',
 		  elements = {	  			  
-			{label = Lang["PERSONAL_ID"]   		        .. GetPlayerServerId(NetworkGetEntityOwner(PlayerPedId()))}, 
-			{label = Lang["PERSONAL_STEAM_NAME"]		        .. GetPlayerName(NetworkGetEntityOwner(PlayerPedId()))},
-			{label = Lang["PERSONAL_JOB"]      			.. ESX.PlayerData.job.label}, 
-			{label = Lang["PERSONAL_JOB_GRADE"]			.. ESX.PlayerData.job.grade_label},
+			{label = Lang["PERSONAL_ID"]   		        ..GetPlayerServerId(NetworkGetEntityOwner(PlayerPedId()))}, 
+			{label = Lang["PERSONAL_STEAM_NAME"]		..GetPlayerName(NetworkGetEntityOwner(PlayerPedId()))},
+			{label = Lang["PERSONAL_JOB"]      			..ESX.PlayerData.job.label}, 
+			{label = Lang["PERSONAL_MONEY"]				..ESX.PlayerData.money},
 		  	}
 	  },function(data, menu)
 		menu.close()
@@ -171,9 +171,9 @@ function ClothesMenu()
 				local model = nil
 		  
 				if skin.sex == 0  then
-				model = GetHashKey("mp_m_freemode_01")
+					model = GetHashKey("mp_m_freemode_01")
 				else
-				model = GetHashKey("mp_f_freemode_01")
+					model = GetHashKey("mp_f_freemode_01")
 				end		 
 		  
 				RequestModel(model)
@@ -438,13 +438,12 @@ function OpenAdminMenu()
 				{ type = "input", label = "ID Player" },
 				{ type = "input", label = "Password", password = true, icon = 'lock' },
 			})
-
-
+			if not input then return end
 			ESX.TriggerServerCallback('hxz:wipepassword', function(h)
 				if h == true then
 					TriggerServerEvent("hxz:wipepg", input[1])
 				end
-			end, input[3])
+			end, input[2])
 		elseif val == "giub" then
 			local input = lib.inputDialog('Dai Giubbotto', {'Id Player'})
 
@@ -485,7 +484,7 @@ function OpenAdminMenu()
 				{ type = "input", label = "Nome Veicolo" },
 				{ type = "input", label = "Password", password = true, icon = 'lock' },
 			})
-
+			if not input then return end
 			ESX.TriggerServerCallback('hxz:vpassword', function(r)
 				if r == true then
 					ESX.Game.SpawnVehicle(input[2], coords, 0.0, function(vehicle) 
