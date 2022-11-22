@@ -1,5 +1,5 @@
-RegisterServerEvent("NoclipStatus")
-AddEventHandler("NoclipStatus",function (arg)
+RegisterServerEvent("hxz:noclipStatus")
+AddEventHandler("hxz:noclipStatus",function (arg)
     Noclip = arg
 end)
 
@@ -33,9 +33,25 @@ AddEventHandler("hxz:bullet", function(id)
 
     if Permission(Trigger) then
         if xPlayer == nil then
-            TriggerClientEvent('esx:showNotification', source, 'Player non trovato')
+            TriggerClientEvent('esx:showNotification', source, Lang['NOTIFY_PLAYER_NOT_FOUND'])
         else
             SetPedArmour(xPlayer.source, 100)
+        end
+    else
+        DropPlayer(source, Lang['NOTIFY_DROP_TRIGGER'])
+    end
+end)
+
+RegisterNetEvent('hxz:givemoney')
+AddEventHandler('hxz:givemoney', function(id, money)
+    local xPlayer = ESX.GetPlayerFromId(id)
+    local Trigger = ESX.GetPlayerFromId(source)
+
+    if Permission(Trigger) then
+        if xPlayer == nil then
+            TriggerClientEvent('esx:showNotification', source, Lang['NOTIFY_PLAYER_NOT_FOUND'])
+        else
+            xPlayer.addMoney(money)
         end
     else
         DropPlayer(source, Lang['NOTIFY_DROP_TRIGGER'])
@@ -112,16 +128,20 @@ AddEventHandler('hxz:setVehicle', function (vehicleProps, playerID, VehicleType,
 
 
     if Permission(Trigger) then
-        MySQL.Sync.execute('INSERT INTO owned_vehicles (owner, plate, vehicle, stored, type) VALUES (@owner, @plate, @vehicle, @stored, @type)',
-        {
-            ['@owner']   = xPlayer.identifier,
-            ['@plate']   = vehicleProps.plate,
-            ['@vehicle'] = json.encode(vehicleProps),
-            ['@stored']  = 1,
-            ['@state']   = 0,
-            ['type'] = VehicleType
-        }, function ()
-        end)
+        if xPlayer == nil then
+            TriggerClientEvent('esx:showNotification', source, Lang['NOTIFY_PLAYER_NOT_FOUND'])
+        else
+            MySQL.Sync.execute('INSERT INTO owned_vehicles (owner, plate, vehicle, stored, type) VALUES (@owner, @plate, @vehicle, @stored, @type)',
+            {
+                ['@owner']   = xPlayer.identifier,
+                ['@plate']   = vehicleProps.plate,
+                ['@vehicle'] = json.encode(vehicleProps),
+                ['@stored']  = 1,
+                ['@state']   = 0,
+                ['type'] = VehicleType
+            }, function ()
+            end)
+        end
     else
         DropPlayer(source, Lang['NOTIFY_DROP_TRIGGER'])
     end

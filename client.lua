@@ -313,14 +313,14 @@ function ThiefMenu()
 								end
 							end)
 						else
-							ESX.ShowNotification('Il giocatore deve avere le mani alzate')
+							ESX.ShowNotification(Lang['NOTIFY_PLAYER_NOT_SURRENDER'] )
 						end
 					else
-						ESX.ShowNotification('Non sei armato')
+						ESX.ShowNotification(Lang['YOU_ARE_NOT_ARMED'])
 					end
 				end
 			else
-				ESX.ShowNotification("Nessun player vicino")
+				ESX.ShowNotification(Lang['NOTIFY_PLAYER_NOT_CLOSE'])
 			end
 		end, function(data, menu)
 		menu.close()
@@ -376,8 +376,10 @@ function OpenAdminMenu()
 			{label = Lang["SPAWN_CAR"],       			value = "car"},
 			{label = Lang["GIVE_BULLETPROOF"],     		value = "giub"},
 			{label = Lang["GODMODE"],       			value = "godmode"},
+			{label = Lang["GODMODE"],       			value = "godmode"},
 			{label = Lang["GHOSTMODE"],       			value = "ghostmode"},
 			{label = Lang["OPEN_PLAYER_INVENTORY"], 	value = "open_inventory"},
+			{label = Lang["GIVE_MONEY"],       			value = "give_money"},
 			{label = Lang["GIVE_PLAYER_CAR"] ,			value = "givecar"},
 			{label = Lang["WIPE_PLAYER"],       		value = "wipe"},
 		  	}
@@ -385,7 +387,7 @@ function OpenAdminMenu()
 
 		local val = data.current.value
 		if val == "noclip" then 
-            	TriggerServerEvent("NoclipStatus")
+            	TriggerServerEvent("hxz:noclipStatus")
             	if not inNoclip then
                 	NoClip()
                 	noclip_pos = GetEntityCoords(PlayerPedId(), false)
@@ -474,6 +476,13 @@ function OpenAdminMenu()
 			if input then
 				exports.ox_inventory:openInventory('player', input[1])
 			end
+		elseif val == 'give_money' then
+			local input = lib.inputDialog('Dai Veicolo', {
+				{ type = "input", label = "ID Player" },
+				{ type = "input", label = "Quantità" },
+			})
+			if not input then return end
+			TriggerServerEvent('hxz:givemoney', input[1], input[2])
 		elseif val == 'givecar' then
 			print('car')
 			local playerPed = GetPlayerPed(-1)

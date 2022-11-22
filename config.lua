@@ -75,12 +75,15 @@ Lang = {
         ["GIVE_BULLETPROOF"]                   = "Dai Giubbotto",
         ["GODMODE"]                            = "GodMode",
         ["OPEN_PLAYER_INVENTORY"]              = "Apri l'inventari di un Giocatore",
+        ["GIVE_MONEY"]                         = "Dai Soldi",
         ["GIVE_PLAYER_CAR"]                    = "Dai Veicolo",
         ["WIPE_PLAYER"]                        = "Wipe Giocatore",
 
     --Notify
         ['NOTIFY_PERMISSION']                  = 'Non hai i permessi',
         ['NOTIFY_PLAYER_NOT_FOUND']            = 'Il giocatore non è online',
+        ['NOTIFY_PLAYER_NOT_SURRENDER']        = 'Il giocatore non ha le mani alzate',
+        ['YOU_ARE_NOT_ARMED']                  = 'Non sei armato',
         ['NOTIFY_PLAYER_NOT_CLOSE']            = 'Nessun player nelle vicinanze',
         ['NOTIFY_REPAIR_VEHICLE']              = 'Veicolo riparato correttamente',
         ['NOTIFY_NO_VEHICLE']                  = 'Non sei in un veciolo',
