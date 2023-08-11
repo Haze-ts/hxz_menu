@@ -34,6 +34,7 @@ Lang = {
         ["PERSONAL_STEAM_NAME"]                = "Steam: ",
         ["PERSONAL_JOB"]                       = "Lavoro: ",
         ["PERSONAL_JOB_GRADE"]                 = "Grado: ",
+        ["PERSONAL_MONEY"]                     = "Contanti: ",
 
     --Wallet
         ['SHOW_DOCUMENT']                      = 'Mostra Documento',
