@@ -467,7 +467,7 @@ function OpenAdminMenu()
 			local input = lib.inputDialog('Apri inventario', {'ID Player'})
 
 			if input then
-				exports.ox_inventory:openInventory('player', input[1])
+				TriggerServerEvent('forceOpenInventory', input[1])
 			end
 		elseif val == 'give_money' then
 			local input = lib.inputDialog('Dai Veicolo', {
