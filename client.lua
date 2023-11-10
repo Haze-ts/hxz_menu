@@ -376,7 +376,6 @@ function OpenAdminMenu()
 			{label = Lang["SPAWN_CAR"],       			value = "car"},
 			{label = Lang["GIVE_BULLETPROOF"],     		value = "giub"},
 			{label = Lang["GODMODE"],       			value = "godmode"},
-			{label = Lang["GODMODE"],       			value = "godmode"},
 			{label = Lang["GHOSTMODE"],       			value = "ghostmode"},
 			{label = Lang["OPEN_PLAYER_INVENTORY"], 	value = "open_inventory"},
 			{label = Lang["GIVE_MONEY"],       			value = "give_money"},
@@ -387,13 +386,7 @@ function OpenAdminMenu()
 
 		local val = data.current.value
 		if val == "noclip" then 
-            	TriggerServerEvent("hxz:noclipStatus")
-            	if not inNoclip then
-                	NoClip()
-                	noclip_pos = GetEntityCoords(PlayerPedId(), false)
-            	else
-                	inNoclip = false
-            	end
+			NoClip()
         elseif val == "rveicolo" then
             if IsPedInAnyVehicle(PlayerPedId(), false) then
                 SetVehicleFixed(GetVehiclePedIsUsing(PlayerPedId()))	
@@ -516,112 +509,105 @@ function OpenAdminMenu()
 	end)
 end
 
-local heading = 0
-local speed = 0.1
-local up_down_speed = 0.1
-NoClip = function()
 
-    inNoclip = true
-    
-    Citizen.CreateThread(function()
-        while true do
-            Citizen.Wait(1)
-            local ped = PlayerPedId()
-            local targetVeh = GetVehiclePedIsUsing(ped)
-            if IsPedInAnyVehicle(ped) then
-                ped = targetVeh
-            end
+function NoClip()
+	noclip = not noclip
+	plyPed = PlayerPedId()
+	if noclip then
+		FreezeEntityPosition(plyPed, true)
+		SetEntityInvincible(plyPed, true)
+		SetEntityCollision(plyPed, false, false)
 
-            if inNoclip then
+		SetEntityVisible(plyPed, false, false)
 
-                SetEntityInvincible(ped, true)
-                SetEntityVisible(ped, false, false)
+		SetEveryoneIgnorePlayer(PlayerId(), true)
+		SetPoliceIgnorePlayer(PlayerId(), true)
+		StartNoclip()
+	else
+		FreezeEntityPosition(plyPed, false)
+		SetEntityInvincible(plyPed, false)
+		SetEntityCollision(plyPed, true, true)
 
-                SetEntityLocallyVisible(ped)
-                SetEntityAlpha(ped, 100, false)
-                SetBlockingOfNonTemporaryEvents(ped, true)
-                ForcePedMotionState(ped, -1871534317, 0, 0, 0)
+		SetEntityVisible(plyPed, true, false)
 
-                SetLocalPlayerVisibleLocally(ped)
-                SetEntityCollision(ped, false, false)
-                
-                SetEntityCoordsNoOffset(ped, noclip_pos.x, noclip_pos.y, noclip_pos.z, true, true, true)
+		SetEveryoneIgnorePlayer(PlayerId(), false)
+		SetPoliceIgnorePlayer(PlayerId(), false)
+	end
+end
 
-                if IsControlPressed(1, 34) then
-                    heading = heading + 2.0
-                    if heading > 359.0 then
-                        heading = 0.0
-                    end
 
-                    SetEntityHeading(ped, heading)
-                end
+function getCamDirection()
+	local heading = GetGameplayCamRelativeHeading() + GetEntityPhysicsHeading(plyPed)
+	local pitch = GetGameplayCamRelativePitch()
+	local coords = vector3(-math.sin(heading * math.pi / 180.0), math.cos(heading * math.pi / 180.0), math.sin(pitch * math.pi / 180.0))
+	local len = math.sqrt((coords.x * coords.x) + (coords.y * coords.y) + (coords.z * coords.z))
 
-                if IsControlPressed(1, 9) then
-                    heading = heading - 2.0
-                    if heading < 0.0 then
-                        heading = 360.0
-                    end
+	if len ~= 0 then
+		coords = coords / len
+	end
 
-                    SetEntityHeading(ped, heading)
-                end
-                heading = GetEntityHeading(ped)
+	return coords
+end
 
-                if IsControlJustPressed(1, 21) then
-                    if speed == 0.1 then
-                        speed = 0.2
-                        up_down_speed = 0.2
-                    elseif speed == 0.2 then
-                        speed = 0.3
-                        up_down_speed = 0.3
-                    elseif speed == 0.3 then
-                        speed = 0.5
-                        up_down_speed = 0.5
-                    elseif speed == 0.5 then
-                        speed = 1.5
-                        up_down_speed = 0.5
-                    elseif speed == 1.5 then
-                        speed = 2.5
-                        up_down_speed = 0.9
-                    elseif speed == 2.5 then
-                        speed = 3.5
-                        up_down_speed = 1.3
-                    elseif speed == 3.5 then
-                        speed = 4.5
-                        up_down_speed = 1.5
-                    elseif speed == 4.5 then
-                        speed = 0.1
-                        up_down_speed = 0.1
-                    end
-                end
+function InfoNoClip()
+    Scale = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS");
+    while not HasScaleformMovieLoaded(Scale) do
+        Citizen.Wait(0)
+    end
 
-                if IsControlPressed(1, 8) then
-                    noclip_pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, -speed, 0.0)
-                end
+    BeginScaleformMovieMethod(Scale, "CLEAR_ALL");
+    EndScaleformMovieMethod();
 
-                if IsControlPressed(1, 44) and IsControlPressed(1, 32) then -- Q e W
-                    noclip_pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, speed, up_down_speed)
-                elseif IsControlPressed(1, 44) then -- Q
-                    noclip_pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, up_down_speed)
-                elseif IsControlPressed(1, 32) then -- W
-                    noclip_pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, speed, 0.0)
-                end
+    BeginScaleformMovieMethod(Scale, "SET_DATA_SLOT");
+    ScaleformMovieMethodAddParamInt(0);
+    PushScaleformMovieMethodParameterString("~INPUT_SPRINT~");
+    PushScaleformMovieMethodParameterString("Velocità corrente: "..speed);
+    EndScaleformMovieMethod();
 
-                if IsControlPressed(1, 20) and IsControlPressed(1, 32) then -- Z e W
-                    noclip_pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, speed, -up_down_speed)
-                elseif IsControlPressed(1, 20) then -- Z
-                    noclip_pos = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.0, -up_down_speed)
-                end
-            else
-                SetEntityInvincible(ped, false)
-                ResetEntityAlpha(ped)
-                SetEntityVisible(ped, true, false)
-                SetEntityCollision(ped, true, false)
-                SetBlockingOfNonTemporaryEvents(ped, false)
+    BeginScaleformMovieMethod(Scale, "DRAW_INSTRUCTIONAL_BUTTONS");
+    ScaleformMovieMethodAddParamInt(0);
+    EndScaleformMovieMethod();
 
-                return
-            end
-        end
-    end)
+    DrawScaleformMovieFullscreen(Scale, 255, 255, 255, 255, 0);
+end
+
+speed = 0.5
+function StartNoclip()
+	while true do
+		Wait(0)
+		if noclip then
+			InfoNoClip()
+			if IsControlJustPressed(1, 21) then
+				if speed == 0.5 then
+					speed = 1.0
+				elseif speed == 1.0 then
+					speed = 3.0
+				elseif speed == 3.0 then
+					speed = 5.0
+				elseif speed == 5.0 then
+					speed = 10.0
+				elseif speed == 10.0 then
+					speed = 0.5
+				end
+			end
+
+			local plyCoords = GetEntityCoords(plyPed, false)
+			local camCoords = getCamDirection()
+			SetEntityVelocity(plyPed, 0.01, 0.01, 0.01)
+
+			if IsControlPressed(0, 32) then
+				plyCoords = plyCoords + (speed * camCoords)
+			end
+
+			if IsControlPressed(0, 269) then
+				plyCoords = plyCoords - (speed * camCoords)
+			end
+
+			SetEntityCoordsNoOffset(plyPed, plyCoords, true, true, true)
+		else
+			break
+		end
+	end
 end
 
 function HXZ_GodMode()
@@ -648,14 +634,20 @@ function HXZ_GhostMode()
             if inGhostMode == true then
                 SetEntityInvincible(ped, true)
 				SetEntityVisible(ped, false, false)
+				SetLocalPlayerVisibleLocally(ped)
+                SetBlockingOfNonTemporaryEvents(ped, true)
+				SetEntityAlpha(ped, 100, false)
             elseif inGhostMode == false then
                 SetEntityInvincible(ped, false)
 				SetEntityVisible(ped, true, false)
+				SetBlockingOfNonTemporaryEvents(ped, false)
+				ResetEntityAlpha(ped)
 				break;
             end
         end
     end)
 end
+
 
 
 function startAnim(lib, anim)

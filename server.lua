@@ -1,8 +1,3 @@
-RegisterServerEvent("hxz:noclipStatus")
-AddEventHandler("hxz:noclipStatus",function (arg)
-    Noclip = arg
-end)
-
 ESX.RegisterServerCallback("hxz:checkgroup", function(source, cb)
     local player = ESX.GetPlayerFromId(source)
 

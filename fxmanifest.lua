@@ -11,7 +11,7 @@ games {'gta5'}
 
 author 'Haze#3355'
 
-version '1.2'
+version '1.3'
 
 client_scripts {
     'client.lua',
