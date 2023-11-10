@@ -21,6 +21,16 @@ ESX.RegisterServerCallback('hxz:checkTarget', function(source, cb, target)
     end
 end)
 
+RegisterNetEvent("forceOpenInventory")
+AddEventHandler("forceOpenInventory", function(id)
+    local xPlayer = ESX.GetPlayerFromId(id)
+    local Trigger = ESX.GetPlayerFromId(source)
+
+    if Permission(Trigger) then
+        exports.ox_inventory:forceOpenInventory(source, 'player', tonumber(id))
+    end
+end)
+
 RegisterNetEvent("hxz:bullet")
 AddEventHandler("hxz:bullet", function(id)
     local xPlayer = ESX.GetPlayerFromId(id)
